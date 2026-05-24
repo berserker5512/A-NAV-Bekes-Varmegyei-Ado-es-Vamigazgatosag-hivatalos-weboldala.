@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WSS NAV - Online ügyintézés</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="navlogo.png">
+
+</head>
+
+<body>
+
+<!-- FIX LOGÓ -->
+<div class="floating-logo">
+<img src="navlogo.png" alt="NAV">
+</div>
+
+<!-- HEADER -->
+<header class="header">
+
+<div class="header-main">
+Nemzeti Adó- és Vámhivatal
+</div>
+
+<div class="header-sub">
+Békés Vármegyei Adó- és Vámigazgatóság
+</div>
+
+</header>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+
+<a href="index.html">Főoldal</a>
+<a href="kozlemenyek.html">Közlemények</a>
+<a href="allas.html">Álláspályázatok</a>
+<a href="korozesek.html">Körözések</a>
+<a href="adok.html">Adók</a>
+<a href="paragrafusok.html">BTK paragrafusok</a>
+
+<div class="dropdown">
+
+<a href="#">Ügyintézés</a>
+
+<div class="dropdown-content">
+
+<a href="ugyintezes.html">Személyes ügyintézés</a>
+<a href="onlineugyintezes.html">Online ügyintézés</a>
+
+</div>
+
+</div>
+
+<a href="szervezet.html">Szervezeti felépítés</a>
+<a href="#">Taglista</a>
+
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<div class="content-card">
+
+<h1>NAV Online Ügyintézés</h1>
+
+<h2>Ügyintézési kérelem</h2>
+
+<div class="news-item">
+
+<input id="discordnev" placeholder="Discord név" style="width:100%;padding:12px;margin-top:10px;">
+<input id="discordid" placeholder="Discord ID" style="width:100%;padding:12px;margin-top:10px;">
+<input id="icnev" placeholder="IC teljes név" style="width:100%;padding:12px;margin-top:10px;">
+<input id="szuldatum" placeholder="Születési dátum" style="width:100%;padding:12px;margin-top:10px;">
+<input id="szulhely" placeholder="Születési hely" style="width:100%;padding:12px;margin-top:10px;">
+
+<input id="datum" type="date" style="width:100%;padding:12px;margin-top:10px;">
+
+<textarea id="indok" placeholder="Indok"
+style="width:100%;height:140px;padding:12px;margin-top:10px;"></textarea>
+
+<button onclick="kuldes()"
+style="width:100%;padding:15px;margin-top:15px;background:#1b3a22;color:white;border:none;font-size:16px;font-weight:bold;cursor:pointer;">
+
+KÉRELEM BEKÜLDÉSE
+
+</button>
+
+</div>
+
+</div>
+
+</main>
+
+<!-- SCRIPT -->
+<script>
+
+let lastSendTime = 0;
+
+function kuldes(){
+
+let now = Date.now();
+let cooldown = 20 * 60 * 1000;
+
+if(now - lastSendTime < cooldown){
+
+let remaining = Math.ceil((cooldown - (now - lastSendTime)) / 60000);
+
+alert("Hivatalos NAV rendszer:\n20 percenként lehet kérelmet beküldeni.\nHátralévő idő: " + remaining + " perc");
+
+return;
+
+}
+
+let discordnev = document.getElementById("discordnev").value;
+let discordid = document.getElementById("discordid").value;
+let icnev = document.getElementById("icnev").value;
+let szuldatum = document.getElementById("szuldatum").value;
+let szulhely = document.getElementById("szulhely").value;
+let datum = document.getElementById("datum").value;
+let indok = document.getElementById("indok").value;
+
+if(
+discordnev=="" ||
+discordid=="" ||
+icnev=="" ||
+szuldatum=="" ||
+szulhely=="" ||
+datum=="" ||
+indok==""
+){
+alert("Hiba: minden mező kitöltése kötelező!");
+return;
+}
+
+fetch("https://discord.com/api/webhooks/1508023180692815922/2DHdj2_De87VFOcvJYCI9TtSYzGdr6wsM9NJUyf04WIWQtJ5N18Rs4QwqXiIzs46zWJo",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+
+content:
+"**NAV ONLINE ÜGYINTÉZÉS**\n\n"+
+"Discord név: "+discordnev+"\n"+
+"Discord ID: "+discordid+"\n"+
+"IC név: "+icnev+"\n"+
+"Születési dátum: "+szuldatum+"\n"+
+"Születési hely: "+szulhely+"\n"+
+"Indok: "+indok+"\n"+
+"Dátum: "+datum
+
+})
+
+})
+
+.then(()=>{
+
+lastSendTime = Date.now();
+
+document.getElementById("discordnev").value="";
+document.getElementById("discordid").value="";
+document.getElementById("icnev").value="";
+document.getElementById("szuldatum").value="";
+document.getElementById("szulhely").value="";
+document.getElementById("datum").value="";
+document.getElementById("indok").value="";
+
+alert("Sikeres beküldés!");
+
+});
+
+}
+
+</script>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="footer-left">
+
+<img src="navlogo.png" alt="NAV">
+
+<div class="footer-left-text">
+
+Mezőkovácsházi NAV
+
+</div>
+
+</div>
+
+
+
+<div class="footer-center">
+
+<img
+class="footer-center-logo"
+src="navlogo.png"
+alt="NAV">
+
+<div class="footer-title">
+
+NAV - Békés Vármegyei Adó- és Vámigazgatósága © 2026
+
+</div>
+
+<div class="footer-divider"></div>
+
+<div class="footer-disclaimer">
+
+Ez a weboldal egy szerepjátékhoz készült, nem áll kapcsolatban a valós NAV szervekkel!
+
+</div>
+
+</div>
+
+
+
+<div class="footer-right">
+
+Cím:
+5800 Mezőkovácsháza,
+Árpád utca 169.
+
+<br><br>
+
+Telefonszám:
++36 (66) 996-100
+
+<br><br>
+
+Email:
+nav@bekes.gov.hu
+
+</div>
+
+</footer>
+
+</body>
+</html>
